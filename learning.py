@@ -17,3 +17,17 @@ test_df = pd.read_csv('C:\OSUPR-AI\Testing.csv')
 
 print(train_df.head())
 print(test_df.head())
+
+print(train_df.info())
+print(test_df.info())
+
+# Povzetek podatkov na kratko
+print(train_df.describe())
+print(test_df.describe())
+
+print(train_df.isnull().sum())
+print(test_df.isnull().sum())
+
+# porazdelitev primerov različnih bolezni
+sns.countplot(y=train_df['prognosis'])
+plt.show()
