@@ -31,3 +31,12 @@ print(test_df.isnull().sum())
 # porazdelitev primerov različnih bolezni
 sns.countplot(y=train_df['prognosis'])
 plt.show()
+
+X_train = train_df.drop('prognosis', axis=1)
+y_train = train_df['prognosis']
+X_test = test_df.drop('prognosis', axis=1)
+y_test = test_df['prognosis']
+
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
