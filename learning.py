@@ -32,6 +32,7 @@ print(test_df.isnull().sum())
 sns.countplot(y=train_df['prognosis'])
 plt.show()
 
+
 X_train = train_df.drop('prognosis', axis=1)
 y_train = train_df['prognosis']
 X_test = test_df.drop('prognosis', axis=1)
@@ -40,3 +41,28 @@ y_test = test_df['prognosis']
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
+
+# Logistična regresija
+log_reg = LogisticRegression(max_iter=1000)
+log_reg.fit(X_train_scaled, y_train)
+y_pred_log_reg = log_reg.predict(X_test_scaled)
+
+# Odločitveno drevo
+decision_tree = DecisionTreeClassifier()
+decision_tree.fit(X_train_scaled, y_train)
+y_pred_tree = decision_tree.predict(X_test_scaled)
+
+# Naključni gozd
+random_forest = RandomForestClassifier()
+random_forest.fit(X_train_scaled, y_train)
+y_pred_forest = random_forest.predict(X_test_scaled)
+
+# Podporni vektorji
+svc = SVC()
+svc.fit(X_train_scaled, y_train)
+y_pred_svc = svc.predict(X_test_scaled)
+
+# Nevronska mreža
+mlp = MLPClassifier(max_iter=1000)
+mlp.fit(X_train_scaled, y_train)
+y_pred_mlp = mlp.predict(X_test_scaled)
