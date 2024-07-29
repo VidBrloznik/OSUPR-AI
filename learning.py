@@ -15,6 +15,10 @@ import joblib
 train_df = pd.read_csv('C:\OSUPR-AI\Training.csv')
 test_df = pd.read_csv('C:\OSUPR-AI\Testing.csv')
 
+train_df = train_df.loc[:, ~train_df.columns.str.contains('^Unnamed')]
+test_df = test_df.loc[:, ~test_df.columns.str.contains('^Unnamed')]
+
+
 print(train_df.head())
 print(test_df.head())
 
@@ -29,8 +33,8 @@ print(train_df.isnull().sum())
 print(test_df.isnull().sum())
 
 # porazdelitev primerov različnih bolezni
-sns.countplot(y=train_df['prognosis'])
-plt.show()
+#sns.countplot(y=train_df['prognosis'])
+#plt.show()
 
 
 X_train = train_df.drop('prognosis', axis=1)
@@ -66,3 +70,18 @@ y_pred_svc = svc.predict(X_test_scaled)
 mlp = MLPClassifier(max_iter=1000)
 mlp.fit(X_train_scaled, y_train)
 y_pred_mlp = mlp.predict(X_test_scaled)
+
+models = {
+    'Logična regresija': y_pred_log_reg,
+    'Odločitveno drevo': y_pred_tree,
+    'Naključni gozd': y_pred_forest,
+    'Podporni vektorski klasifikator': y_pred_svc,
+    'Nevronska mreža': y_pred_mlp
+}
+
+for model_name, y_pred in models.items():
+    print(f'Evalvacija za: {model_name}')
+    print(f'Natančnost: {accuracy_score(y_test, y_pred)}')
+    print(f'Matrika zmede:\n{confusion_matrix(y_test, y_pred)}')
+    print(f'Klacifikacijsko poročilo:\n{classification_report(y_test, y_pred)}')
+    print('\n')
